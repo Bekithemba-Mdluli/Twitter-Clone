@@ -16,6 +16,11 @@ const server = app.listen(PORT, () => {
 app.set("view engine", "pug")
 app.set("views", "static")
 
+//Routes
+const loginRoute = require('./routes/loginRoutes')
+
+app.use('/login', loginRoute);
+
 /* Calls middleware which executes first */
 app.get("/", middleware.requireLogin, (req, res, next) => {
     const payload = {
