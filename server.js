@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const colors = require('colors')
+const path = require('path')
 const middleware = require('./middleware')
 
 dotenv.config({ path: 'config/config.env'})
@@ -14,12 +15,17 @@ const server = app.listen(PORT, () => {
 
 // Tell express which template to use
 app.set("view engine", "pug")
-app.set("views", "static")
+app.set("views", "views")
+
+//Serves static folder
+app.use(express.static(path.join(__dirname, "public")))
 
 //Routes
 const loginRoute = require('./routes/loginRoutes')
+const registerRoute = require('./routes/registerRoutes')
 
 app.use('/login', loginRoute);
+app.use('/register', registerRoute);
 
 /* Calls middleware which executes first */
 app.get("/", middleware.requireLogin, (req, res, next) => {
