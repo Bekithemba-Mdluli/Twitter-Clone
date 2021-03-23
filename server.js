@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const colors = require('colors')
+const middleware = require('./middleware')
 
 dotenv.config({ path: 'config/config.env'})
 const app = express();
@@ -15,7 +16,8 @@ const server = app.listen(PORT, () => {
 app.set("view engine", "pug")
 app.set("views", "static")
 
-app.get("/", (req, res, next) => {
+/* Calls middleware which executes first */
+app.get("/", middleware.requireLogin, (req, res, next) => {
     const payload = {
         pageTitle: "Home"
     }
