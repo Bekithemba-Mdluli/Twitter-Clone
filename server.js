@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const colors = require('colors')
 const path = require('path')
 const middleware = require('./middleware')
+const bodyParser = require("body-parser")
 
 dotenv.config({ path: 'config/config.env'})
 const app = express();
@@ -17,6 +18,7 @@ const server = app.listen(PORT, () => {
 app.set("view engine", "pug")
 app.set("views", "views")
 
+app.use(express.urlencoded({ extended: false }));
 //Serves static folder
 app.use(express.static(path.join(__dirname, "public")))
 
