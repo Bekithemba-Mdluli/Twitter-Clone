@@ -4,8 +4,20 @@ const colors = require('colors')
 const path = require('path')
 const middleware = require('./middleware')
 const bodyParser = require("body-parser")
+const mongoose = require("mongoose");
 
 dotenv.config({ path: 'config/config.env'})
+
+/* Connect to Mongo */
+mongoose.connect(process.env.MONGO_CONNECTION)
+.then(() => {
+    console.log("database connection successful".green);
+})
+.catch((err) => {
+    console.log(("database connection error " + err).red);
+})
+
+
 const app = express();
 
 const PORT = process.env.PORT
@@ -37,3 +49,4 @@ app.get("/", middleware.requireLogin, (req, res, next) => {
 
     res.status(200).render("home", payload)
 })
+
